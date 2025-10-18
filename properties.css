@@ -1,0 +1,94 @@
+/* Dialog */
+@property --dialog-opacity {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 0;
+}
+@property --dialog-blur {
+    syntax: "<length>";
+    inherits: true;
+    initial-value: 0px;
+}
+@property --dialog-scale-y {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 1;
+}
+@property --dialog-translate-y {
+    syntax: "<percentage>";
+    inherits: true;
+    initial-value: 0%;
+}
+/* Backdrop */
+@property --backdrop-opacity {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 0;
+}
+@property --backdrop-blur {
+    syntax: "<length>";
+    inherits: true;
+    initial-value: 0px;
+}
+/* Backdrop gradients */
+@property --grad-color-1 {
+    syntax: "<color>";
+    inherits: true;
+    initial-value: #22223388;
+}
+@property --grad-color-1b {
+    syntax: "<color>";
+    inherits: true;
+    initial-value: #28283a88;
+}
+@property --grad-centre-x-1 {
+    syntax: "<length>";
+    inherits: true;
+    initial-value: 25vw;
+}
+@property --grad-centre-y-1 {
+    syntax: "<length>";
+    inherits: true;
+    initial-value: 25vh;
+}
+@property --grad-size-1 {
+    syntax: "<length>";
+    inherits: true;
+    initial-value: 100vmax;
+}
+@property --grad-color-2 {
+    syntax: "<color>";
+    inherits: true;
+    initial-value: #28283a88;
+}
+@property --grad-color-2b {
+    syntax: "<color>";
+    inherits: true;
+    initial-value: #22223388;
+}
+@property --grad-centre-x-2 {
+    syntax: "<length>";
+    inherits: true;
+    initial-value: 75vw;
+}
+@property --grad-centre-y-2 {
+    syntax: "<length>";
+    inherits: true;
+    initial-value: 75vh;
+}
+@property --grad-size-2 {
+    syntax: "<length>";
+    inherits: true;
+    initial-value: 100vmax;
+}
+/* Body content */
+@property --bodycontent-scale-x {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 1;
+}
+@property --bodycontent-scale-y {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 1;
+}

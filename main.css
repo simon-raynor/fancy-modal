@@ -1,0 +1,178 @@
+@import url('./properties.css');
+@import url('./ui.css');
+
+
+.red {
+    --grad-color-1: oklch(.8 1 15 / .5);
+    --grad-color-1b: oklch(.85 .8 15 / .5);
+    --grad-color-2: oklch(.85 1 10 / .5);
+    --grad-color-2b: oklch(.8 1 10 / .5);
+}
+
+.green {
+    --grad-color-1: oklch(.5 .6 150 / .5);
+    --grad-color-1b: oklch(.5 .5 150 / .5);
+    --grad-color-2: oklch(.5 .7 120 / .5);
+    --grad-color-2b: oklch(.5 .77 120 / .5);
+}
+
+.blurple {
+    --grad-color-1: oklch(.3 .6 200 / .5);
+    --grad-color-1b: oklch(.325 .6 200 / .5);
+    --grad-color-2: oklch(.425 .4 320 / .5);
+    --grad-color-2b: oklch(.4 .4 320 / .5);
+}
+
+.sunset {
+    --grad-color-1: oklch(.8 1 0 / .5);
+    --grad-color-1b: oklch(.9 .8 0 / .5);
+    --grad-color-2: oklch(.825 1 100 / .5);
+    --grad-color-2b: oklch(.8 1 100 / .5);
+}
+
+
+:root {
+    --duration: .6667s;
+}
+
+main {
+    transform: scale(var(--bodycontent-scale-x), var(--bodycontent-scale-y))
+            translateY(calc((var(--bodycontent-scale-y) - 1) * 50%));
+}
+
+
+
+dialog {
+    opacity: var(--dialog-opacity);
+    transform: scaleY(var(--dialog-scale-y))
+            translateY(var(--dialog-translate-y));
+    transform-origin: center bottom;
+
+    border: none;
+    background: none;
+    color: var(--foreground);
+
+    animation: default-dialog-out var(--duration) both;
+
+    --foreground: #fff;
+    --background: #213;
+}
+
+dialog::backdrop {
+    background-image: radial-gradient(
+                    circle 100vmax
+                    at var(--grad-centre-x-1) var(--grad-centre-y-1)
+                    , var(--grad-color-1)
+                    , var(--grad-color-1b)
+                    , var(--grad-color-1) calc(var(--grad-size-1) / 5)
+                    , transparent var(--grad-size-1)
+                ),
+                radial-gradient(
+                    circle 100vmax
+                    at var(--grad-centre-x-2) var(--grad-centre-y-2)
+                    , var(--grad-color-2)
+                    , var(--grad-color-2b)
+                    , var(--grad-color-2) calc(var(--grad-size-2) / 5)
+                    , transparent var(--grad-size-2)
+                );
+    backdrop-filter: blur(var(--backdrop-blur));
+    opacity: var(--backdrop-opacity);
+}
+
+dialog:open {
+    --backdrop-blur: 1em;
+    animation: default-dialog-in var(--duration) both;
+}
+
+dialog.out {
+    animation: default-dialog-out calc(var(--duration) / 2) both;
+}
+
+dialog:open ~ main {
+    --bodycontent-scale-x: .99;
+    --bodycontent-scale-y: 1.325;
+    transition: --bodycontent-scale-x var(--duration), --bodycontent-scale-y var(--duration);
+}
+
+dialog ~ main,
+dialog.out ~ main {
+    --bodycontent-scale-x: 1;
+    --bodycontent-scale-y: 1;
+    transition: --bodycontent-scale-x calc(var(--duration) / 2), --bodycontent-scale-y calc(var(--duration) / 4);
+}
+
+@keyframes default-dialog-in {
+    0% {
+        display: none;
+        --dialog-opacity: 0;
+        --dialog-blur: 0.5em;
+        --dialog-translate-y: -100%;
+        --dialog-scale-y: 10;
+
+        --backdrop-opacity: 1;
+        --backdrop-blur: 0em;
+
+        --grad-centre-y-1: -50vh;
+        --grad-centre-y-2: -30vh;
+
+        --grad-size-1: 50vh;
+        --grad-size-2: 50vh;
+    }
+    50% {
+        --grad-centre-y-2: 72vh;
+    }
+    90% {
+        --dialog-scale-y: 1;
+
+        --grad-centre-y-1: 25vh;
+        --grad-size-1: 100vh;
+    }
+    100% {
+        display: block;
+        --dialog-blur: 0em;
+        --dialog-opacity: 1;
+        --dialog-translate-y: 0%;
+        --dialog-scale-y: 1;
+
+        --backdrop-opacity: 1;
+
+        --grad-centre-y-1: 25vh;
+        --grad-centre-y-2: 75vh;
+
+        --grad-size-1: 100vh;
+        --grad-size-2: 100vh;
+    }
+}
+
+@keyframes default-dialog-out {
+    0% {
+        display: block;
+        --dialog-blur: 0em;
+        --dialog-opacity: 1;
+        --dialog-translate-y: 0%;
+        --dialog-scale-y: 1;
+
+        --backdrop-opacity: 1;
+
+        --grad-centre-y-1: 25vh;
+        --grad-centre-y-2: 75vh;
+
+        --grad-size-1: 100vh;
+        --grad-size-2: 100vh;
+    }
+    100% {
+        --dialog-blur: 1em;
+        --dialog-translate-y: 100%;
+        --dialog-scale-y: .5;
+
+        --backdrop-opacity: 0;
+
+        --grad-centre-x-1: 50vw;
+        --grad-centre-x-2: 50vw;
+        --grad-centre-y-1: 125vh;
+        --grad-centre-y-2: 175vh;
+
+        --grad-size-1: 50vh;
+        --grad-size-2: 50vh;
+    }
+}
