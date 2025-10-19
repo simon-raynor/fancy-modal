@@ -37,11 +37,11 @@
 
 main {
     will-change: transform;
-    transform: perspective(100vmax)
+    transform: perspective(500px)
         translateY(var(--bodycontent-translate-y))
         scale(var(--bodycontent-scale-x), var(--bodycontent-scale-y))
-        rotateX(var(--bodycontent-rotate-x))
         rotateY(var(--bodycontent-rotate-y))
+        rotateX(var(--bodycontent-rotate-x))
         skew(var(--bodycontent-skew-x), var(--bodycontent-skew-y));
     transform-origin: top center;
 }
@@ -199,35 +199,42 @@ dialog:open ~ main {
 
 @keyframes default-main-in {
     0% {
-        transform-origin: center top;
+        --bodycontent-rotate-x: 0deg;
+        --bodycontent-rotate-y: 0deg;
+        --bodycontent-skew-y: 0deg;
+
         --bodycontent-scale-x: 1;
         --bodycontent-scale-y: 1;
-        --bodycontent-rotate-x: 0deg;
-        --bodycontent-skew-y: 0deg;
-        --bodycontent-translate-y: 0;
     }
-    33.333% {
-        transform-origin: center top;
-        --bodycontent-scale-x: .95;
-        --bodycontent-scale-y: 1.4;
-        --bodycontent-rotate-x: -25deg;
-        --bodycontent-skew-y: 2deg;
-        --bodycontent-translate-y: 5vh;
+    24% {
+        transform-origin: top center;
+        --bodycontent-rotate-x: 6deg;
+        --bodycontent-rotate-y: -6deg;
+        --bodycontent-skew-y: -3deg;
+
+        --bodycontent-scale-x: .9;
+        --bodycontent-scale-y: 1.1;
     }
-    66.667% {
-        transform-origin: center bottom;
-        --bodycontent-scale-x: .95;
-        --bodycontent-scale-y: 1;
-        --bodycontent-rotate-x: -15deg;
+    30% {
+        --bodycontent-rotate-x: 5deg;
+        --bodycontent-rotate-y: -4deg;
         --bodycontent-skew-y: -1deg;
-        --bodycontent-translate-y: 0;
     }
-    100% {
-        transform-origin: center bottom;
+    36% {
+        --bodycontent-rotate-x: 4deg;
+        --bodycontent-rotate-y: -2deg;
+        --bodycontent-skew-y: 1deg;
+    }
+    42% {
+        --bodycontent-rotate-x: 2deg;
+    }
+    48% {
+        transform-origin: bottom center;
+        --bodycontent-rotate-x: 0deg;
+        --bodycontent-rotate-y: 0deg;
+        --bodycontent-skew-y: 0deg;
+
         --bodycontent-scale-x: 1;
         --bodycontent-scale-y: 1;
-        --bodycontent-rotate-x: 0deg;
-        --bodycontent-skew-y: 0deg;
-        --bodycontent-translate-y: 0;
-     }
+    }
 }
