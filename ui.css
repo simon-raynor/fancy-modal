@@ -22,6 +22,12 @@ dialog {
     margin-inline: auto;
 }
 
+dialog > i {
+    font-style: normal;
+    font-size: 5em;
+    font-weight: bold;
+}
+
 .buttonwrap {
     display: flex;
     gap: 1em;
@@ -47,6 +53,10 @@ button:focus {
     outline: var(--foreground) 2px solid;
     outline-offset: 1px;
 }
+button:active {
+    border-top: 5px double;
+    border-bottom: 2px solid;
+}
 
 label {
     display: flex;
@@ -69,4 +79,21 @@ label > span::before {
 }
 label > input:checked + span::before {
     box-shadow: inset 0 0 0 0.25em var(--foreground);
+}
+
+code {
+    font-weight: bold;
+}
+
+a {
+    filter: saturate(50%);
+}
+
+/* better legibility w/ pale colours on landscape screens */
+@media (orientation: landscape) {
+    dialog:open {
+        background: #33333344;
+        backdrop-filter: blur(1em);
+        padding: 1.5em 2em 2em;
+    }
 }

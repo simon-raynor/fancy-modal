@@ -3,17 +3,17 @@
 
 
 .red {
-    --grad-color-1: oklch(.8 1 15 / .5);
-    --grad-color-1b: oklch(.85 .8 15 / .5);
-    --grad-color-2: oklch(.85 1 10 / .5);
-    --grad-color-2b: oklch(.8 1 10 / .5);
+    --grad-color-1: oklch(.2 .5 20 / .65);
+    --grad-color-1b: oklch(.2 .5 20 / .667);
+    --grad-color-2: oklch(.5 1 20 / .667);
+    --grad-color-2b: oklch(.5 1 20 / .65);
 }
 
 .green {
     --grad-color-1: oklch(.5 .6 150 / .5);
-    --grad-color-1b: oklch(.5 .5 150 / .5);
-    --grad-color-2: oklch(.5 .7 120 / .5);
-    --grad-color-2b: oklch(.5 .77 120 / .5);
+    --grad-color-1b: oklch(.5 .5 150 / .475);
+    --grad-color-2: oklch(.3 .5 150 / .475);
+    --grad-color-2b: oklch(.3 .4 150 / .5);
 }
 
 .blurple {
@@ -32,12 +32,18 @@
 
 
 :root {
-    --duration: .6667s;
+    --duration: .8s;
 }
 
 main {
-    transform: scale(var(--bodycontent-scale-x), var(--bodycontent-scale-y))
-            translateY(calc((var(--bodycontent-scale-y) - 1) * 50%));
+    will-change: transform;
+    transform: perspective(100vmax)
+        translateY(var(--bodycontent-translate-y))
+        scale(var(--bodycontent-scale-x), var(--bodycontent-scale-y))
+        rotateX(var(--bodycontent-rotate-x))
+        rotateY(var(--bodycontent-rotate-y))
+        skew(var(--bodycontent-skew-x), var(--bodycontent-skew-y));
+    transform-origin: top center;
 }
 
 
@@ -51,6 +57,7 @@ dialog {
     border: none;
     background: none;
     color: var(--foreground);
+    filter: drop-shadow(0 1px 1px var(--grad-color-1));
 
     animation: default-dialog-out var(--duration) both;
 
@@ -61,22 +68,21 @@ dialog {
 dialog::backdrop {
     background-image: radial-gradient(
                     circle 100vmax
-                    at var(--grad-centre-x-1) var(--grad-centre-y-1)
-                    , var(--grad-color-1)
-                    , var(--grad-color-1b)
-                    , var(--grad-color-1) calc(var(--grad-size-1) / 5)
-                    , transparent var(--grad-size-1)
-                ),
-                radial-gradient(
-                    circle 100vmax
                     at var(--grad-centre-x-2) var(--grad-centre-y-2)
                     , var(--grad-color-2)
                     , var(--grad-color-2b)
                     , var(--grad-color-2) calc(var(--grad-size-2) / 5)
                     , transparent var(--grad-size-2)
+                )
+                , radial-gradient(
+                    circle 100vmax
+                    at var(--grad-centre-x-1) var(--grad-centre-y-1)
+                    , var(--grad-color-1)
+                    , var(--grad-color-1b)
+                    , var(--grad-color-1) calc(var(--grad-size-1) / 5)
+                    , transparent var(--grad-size-1)
                 );
     backdrop-filter: blur(var(--backdrop-blur));
-    opacity: var(--backdrop-opacity);
 }
 
 dialog:open {
@@ -86,56 +92,61 @@ dialog:open {
 
 dialog.out {
     animation: default-dialog-out calc(var(--duration) / 2) both;
+    transform-origin: center top;
 }
 
 dialog:open ~ main {
-    --bodycontent-scale-x: .99;
-    --bodycontent-scale-y: 1.325;
-    transition: --bodycontent-scale-x var(--duration), --bodycontent-scale-y var(--duration);
+    animation: default-main-in var(--duration) both linear;
 }
 
-dialog ~ main,
-dialog.out ~ main {
-    --bodycontent-scale-x: 1;
-    --bodycontent-scale-y: 1;
-    transition: --bodycontent-scale-x calc(var(--duration) / 2), --bodycontent-scale-y calc(var(--duration) / 4);
-}
 
 @keyframes default-dialog-in {
     0% {
         display: none;
         --dialog-opacity: 0;
-        --dialog-blur: 0.5em;
         --dialog-translate-y: -100%;
         --dialog-scale-y: 10;
 
-        --backdrop-opacity: 1;
         --backdrop-blur: 0em;
+        --backdrop-opacity: 1;
 
+        --grad-centre-x-1: 40vw;
+        --grad-centre-x-2: 70vw;
         --grad-centre-y-1: -50vh;
-        --grad-centre-y-2: -30vh;
+        --grad-centre-y-2: -50vh;
 
-        --grad-size-1: 50vh;
-        --grad-size-2: 50vh;
+        --grad-size-1: 33vh;
+        --grad-size-2: 33vh;
+    }
+    5% {
+        --backdrop-opacity: 0;
+    }
+    25% {
+        --grad-size-2: 55vh;
     }
     50% {
-        --grad-centre-y-2: 72vh;
+        --grad-centre-x-2: 80vw;
+        --grad-centre-y-2: 73vh;
+        --grad-size-1: 55vh;
+    }
+    75% {
+        --grad-centre-x-1: 20vw;
+        --grad-centre-y-1: 24vh;
     }
     90% {
         --dialog-scale-y: 1;
-
-        --grad-centre-y-1: 25vh;
-        --grad-size-1: 100vh;
     }
     100% {
         display: block;
-        --dialog-blur: 0em;
         --dialog-opacity: 1;
         --dialog-translate-y: 0%;
         --dialog-scale-y: 1;
 
         --backdrop-opacity: 1;
+        --backdrop-blur: 1em;
 
+        --grad-centre-x-1: 20vw;
+        --grad-centre-x-2: 80vw;
         --grad-centre-y-1: 25vh;
         --grad-centre-y-2: 75vh;
 
@@ -147,32 +158,76 @@ dialog.out ~ main {
 @keyframes default-dialog-out {
     0% {
         display: block;
-        --dialog-blur: 0em;
         --dialog-opacity: 1;
         --dialog-translate-y: 0%;
         --dialog-scale-y: 1;
 
         --backdrop-opacity: 1;
+        --backdrop-blur: 1em;
 
+        --grad-centre-x-1: 20vw;
+        --grad-centre-x-2: 80vw;
         --grad-centre-y-1: 25vh;
         --grad-centre-y-2: 75vh;
 
         --grad-size-1: 100vh;
         --grad-size-2: 100vh;
     }
+    50% {
+        --backdrop-blur: 0em;
+        --grad-size-1: 25vh;
+    }
+    90% {
+        --backdrop-opacity: 1;
+    }
     100% {
-        --dialog-blur: 1em;
         --dialog-translate-y: 100%;
-        --dialog-scale-y: .5;
-
+        --dialog-scale-y: 5;
+        
         --backdrop-opacity: 0;
+        --backdrop-blur: 0em;
 
         --grad-centre-x-1: 50vw;
         --grad-centre-x-2: 50vw;
         --grad-centre-y-1: 125vh;
-        --grad-centre-y-2: 175vh;
+        --grad-centre-y-2: 150vh;
 
-        --grad-size-1: 50vh;
-        --grad-size-2: 50vh;
+        --grad-size-1: 25vh;
+        --grad-size-2: 25vh;
     }
+}
+
+@keyframes default-main-in {
+    0% {
+        transform-origin: center top;
+        --bodycontent-scale-x: 1;
+        --bodycontent-scale-y: 1;
+        --bodycontent-rotate-x: 0deg;
+        --bodycontent-skew-y: 0deg;
+        --bodycontent-translate-y: 0;
+    }
+    33.333% {
+        transform-origin: center top;
+        --bodycontent-scale-x: .95;
+        --bodycontent-scale-y: 1.4;
+        --bodycontent-rotate-x: -25deg;
+        --bodycontent-skew-y: 2deg;
+        --bodycontent-translate-y: 5vh;
+    }
+    66.667% {
+        transform-origin: center bottom;
+        --bodycontent-scale-x: .95;
+        --bodycontent-scale-y: 1;
+        --bodycontent-rotate-x: -15deg;
+        --bodycontent-skew-y: -1deg;
+        --bodycontent-translate-y: 0;
+    }
+    100% {
+        transform-origin: center bottom;
+        --bodycontent-scale-x: 1;
+        --bodycontent-scale-y: 1;
+        --bodycontent-rotate-x: 0deg;
+        --bodycontent-skew-y: 0deg;
+        --bodycontent-translate-y: 0;
+     }
 }
